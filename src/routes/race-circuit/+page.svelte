@@ -11,7 +11,7 @@
   function formatAgeRange(ageRange: AgeGroup['ageRange']): string {
     return ageRange.max === null 
       ? `${ageRange.min}+` 
-      : `${ageRange.min}-${ageRange.max}`;
+      : `${ageRange.min}–${ageRange.max}`;
   }
 
   // Helper function to format category
@@ -58,32 +58,39 @@
   }
 </script>
 
-<div class="min-h-screen bg-gray-100 py-6">
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <h1 class="text-3xl font-bold text-gray-900 mb-8">Race Circuit Results</h1>
+    <h1 class="text-4xl font-bold text-gray-900 mb-8 text-center">Race Circuit Results</h1>
     
     <!-- Desktop Grid Layout -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {#each groupByAgeRange(raceData) as ageGroups}
-        <div class="bg-white rounded-lg shadow-md p-6">
-          <h2 class="text-xl font-semibold text-gray-800 mb-4">{formatAgeRange(ageGroups[0].ageRange)}</h2>
+        <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+          <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">{formatAgeRange(ageGroups[0].ageRange)}</h2>
           
-          {#each ageGroups as ageGroup}
-            <h3 class="text-lg font-medium mb-2 {ageGroup.gender === 'Male' ? 'text-blue-600' : 'text-red-600'}">{ageGroup.gender}</h3>
+          {#each ageGroups as ageGroup, index}
+            {#if index > 0}
+              <div class="my-6 border-t border-gray-200"></div>
+            {/if}
+            <h3 class="text-lg font-medium mb-3 {ageGroup.gender === 'Male' ? 'text-blue-600' : 'text-red-600'} flex items-center gap-2">
+              <span>{ageGroup.gender}</span>
+              <div class="flex-1 h-[0.5ex] bg-gradient-to-r {ageGroup.gender === 'Male' ? 'from-blue-100 to-transparent' : 'from-red-100 to-transparent'}"></div>
+            </h3>
+            
             <!-- Participants with results -->
-            <div class="space-y-2 mb-4">
+            <div class="space-y-2 mb-6">
               {#each getParticipantsWithResults(ageGroup.participants) as participant}
-                <div class="flex justify-between items-center py-1 border-b border-gray-200">
-                  <span class="text-gray-700">{participant.name}</span>
-                  <div class="text-right">
+                <div class="flex justify-between items-center py-2 border-b border-gray-100 hover:bg-gray-50 rounded transition-colors duration-200">
+                  <span class="text-gray-700 font-medium">{participant.name}</span>
+                  <div class="text-right flex items-center gap-2">
                     <button 
-                      class="text-gray-600 font-medium hover:text-gray-800"
+                      class="px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200 text-gray-700 font-medium"
                       on:click={() => expandedResults[getParticipantKey(participant, ageGroup)] = !expandedResults[getParticipantKey(participant, ageGroup)]}
                     >
                       {getTotalPoints(participant)} pts
                     </button>
                     {#if expandedResults[getParticipantKey(participant, ageGroup)]}
-                      <span class="text-gray-500 text-sm ml-2">{formatResults(participant)}</span>
+                      <div class="text-gray-500 text-sm bg-gray-50 px-3 py-1 rounded-full">{formatResults(participant)}</div>
                     {/if}
                   </div>
                 </div>
@@ -94,7 +101,7 @@
             {#if getParticipantsWithoutResults(ageGroup.participants).length > 0}
               <div class="mt-4">
                 <button
-                  class="text-gray-600 hover:text-gray-800 text-sm font-medium flex items-center gap-1"
+                  class="text-gray-600 hover:text-gray-800 text-sm font-medium flex items-center gap-2 px-3 py-1 rounded-full bg-gray-50 hover:bg-gray-100 transition-colors duration-200"
                   on:click={() => expandedGroups[formatCategory(ageGroup)] = !expandedGroups[formatCategory(ageGroup)]}
                 >
                   <span class="transform transition-transform {expandedGroups[formatCategory(ageGroup)] ? 'rotate-90' : ''} inline-block">
@@ -104,9 +111,9 @@
                 </button>
 
                 {#if expandedGroups[formatCategory(ageGroup)]}
-                  <div class="mt-2 space-y-2">
+                  <div class="mt-3 space-y-2">
                     {#each getParticipantsWithoutResults(ageGroup.participants) as participant}
-                      <div class="flex justify-between items-center py-1 border-b border-gray-200">
+                      <div class="flex justify-between items-center py-2 px-3 border-b border-gray-100 hover:bg-gray-50 rounded transition-colors duration-200">
                         <span class="text-gray-500">{participant.name}</span>
                       </div>
                     {/each}
