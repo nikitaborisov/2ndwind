@@ -1,14 +1,4 @@
 name = "2ndwind"
-compatibility_date = "2024-03-18"
-main = "./output/cloudflare/_worker.js"
+compatibility_date = "2025-01-09"
+pages_build_output_dir = ".svelte-kit/cloudflare"
 
-[build]
-command = "npm run build"
-cwd = "."
-
-[site]
-bucket = "./output/cloudflare/client"
-
-[[routes]]
-pattern = "/*"
-zone_id = "" 
