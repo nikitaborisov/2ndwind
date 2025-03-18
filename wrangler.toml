@@ -1,12 +1,13 @@
 name = "2ndwind"
 compatibility_date = "2024-03-18"
+main = "./output/cloudflare/_worker.js"
 
 [build]
 command = "npm run build"
 cwd = "."
 
 [site]
-bucket = "./build/client"
+bucket = "./output/cloudflare/client"
 
 [[routes]]
 pattern = "/*"
