@@ -1,7 +1,53 @@
 import { parse } from "svelte/compiler";
 
+interface Race {
+    name: string;
+    date: string;  // ISO date format
+    url: string;
+    distances: string[]; // 5K
+    abbreviation: string;  // e.g., "SE", "CC",
+    org: string | null
+}
+
+const races: Race[] = [
+    {
+        name: "Siberian Express",
+        date: "2025-01-04",
+        url: "https://runsignup.com/Race/IL/Oakwood/KennekukRoadRunnersSiberianExpress",
+        distances: [],
+        abbreviation: "SE", 
+        org: "KRR"
+    },
+    {
+        name: "Charleston Challenge Mid-Winter Classic",
+        date: "2025-02-04",
+        url: "https://www.charlestonillinois.org/community/charleston_tourism/racecharleston.php",
+        distances: [ "5K", "10K", "15K" ],
+        abbreviation: "CC",
+        org: null
+    },
+    {
+        name: "Mountain Goat",
+        date: "2025-03-15",
+        url: "https://runsignup.com/Race/IL/Oakwood/34thAnnualKRRMountianGoat",
+        distances: [ "5K", "10K", "15K" ],
+        abbreviation: "MG",
+        org: "KRR"
+    },  
+    {
+        name: "Clinton Lake Trail Race",
+        date: "2025-03-29",
+        url: "https://ultrasignup.com/register.aspx?did=115494",
+        distances: [ "10", "30" ],
+        abbreviation: "CL",
+        org: "2nd Wind"
+    }
+];
+
+
 interface RaceResult {
     race: string;  // e.g., "SE", "CC10"
+    distance: string | null;
     points: number;
 }
 
@@ -19,15 +65,23 @@ interface AgeGroup {
     participants: Participant[];
 }
 
+
+
 const parseResults = (summary: string): RaceResult[] => {
     if (!summary.trim()) return [];
     return summary.split(' ')
+        .filter(result => result.length > 0)
         .map(result => {
-            const match = result.match(/([A-Z]+\d*)\((\d+)\)/);
-            if (!match) return null;
+            const match = result.match(/([A-Z]+)(\d*)\((\d+)\)/);
+            if (!match) throw new Error(`Invalid race result format: "${result}"`);
+            const race = races.find(r => r.abbreviation === match[1]);
+            if (!race) throw new Error(`Race with abbreviation ${match[1]} not found`);
+            const distance = match[2] ? race.distances.find(d => d.startsWith(match[2])) : null;
+            if (match[2] && !distance) throw new Error(`Distance ${match[2]} not found for race ${race.name}`);
             return {
-                race: match[1],
-                points: parseInt(match[2])
+                race: race.name,
+                distance: distance,
+                points: parseInt(match[3])
             };
         })
         .filter((result): result is RaceResult => result !== null);
@@ -358,4 +412,4 @@ const getTotalPoints = (participant: Participant): number => {
 };
 
 export type { RaceResult, Participant, AgeGroup };
-export { raceData, getTotalPoints };
+export { raceData, getTotalPoints, races };

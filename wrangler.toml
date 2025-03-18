@@ -1,0 +1,9 @@
+name = "2ndwind"
+compatibility_date = "2024-03-18"
+
+[build]
+command = "npm run build"
+cwd = "."
+
+[site]
+bucket = "./build" 
