@@ -6,4 +6,8 @@ command = "npm run build"
 cwd = "."
 
 [site]
-bucket = "./build" 
+bucket = "./build/client"
+
+[[routes]]
+pattern = "/*"
+zone_id = "" 
