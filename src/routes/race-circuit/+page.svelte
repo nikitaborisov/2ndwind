@@ -124,6 +124,8 @@
     </div>
     <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Race Circuit Results</h2>
 
+    <p class="text-center text-gray-600 mb-8">Click on point score to see detailed race results</p>
+
     <!-- Desktop Grid Layout -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {#each groupByAgeRange(raceData) as ageGroups}
@@ -153,7 +155,7 @@
                         selectedParticipant = selectedParticipantKey === key ? participant : null;
                       }}
                     >
-                      {getTotalPoints(participant)} pts
+                      {getTotalPoints(participant)} pt
                     </button>
                     
                     {#if selectedParticipantKey === getParticipantKey(participant, ageGroup) && selectedParticipant}
