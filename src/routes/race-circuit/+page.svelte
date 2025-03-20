@@ -1,6 +1,7 @@
 <script lang="ts">
   import { raceData, races, type AgeGroup, type Participant, getTotalPoints } from '$lib/data/race_circuit';
   import '$lib/styles/colors.css';
+  import { formatRaceDate } from '$lib/utils/date';
 
   // Track which age groups have their "Others" section expanded
   let expandedGroups: Record<string, boolean> = {};
@@ -100,19 +101,30 @@
       <div class="space-y-3">
         {#each races as race}
           <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 py-2 border-b border-[var(--sw-border-light)] last:border-0 {race.org === '2nd Wind' ? 'bg-[var(--sw-blue-light)]' : ''}">
-            <div class="text-[var(--sw-text-secondary)] text-sm sm:text-base min-w-[4.5rem] max-w-[5rem]">
-              {new Date(race.date).toLocaleDateString('en-US', {month: 'short', day: 'numeric'})}
+            <div class="text-[var(--sw-text-secondary)] text-sm sm:text-base min-w-[5.5rem]">
+              {formatRaceDate(race.date).display}
+              {#if formatRaceDate(race.date).isLikely}
+                <div class="text-xs text-gray-500">(likely)</div>
+              {/if}
             </div>
             <div class="flex-1">
               <div class="flex items-center gap-2">
-                <a 
-                  href={race.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  class="font-medium hover:text-[var(--sw-blue)]"
-                >
-                  {race.name}
-                </a>
+                {#if race.url}
+                  <a 
+                    href={race.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    class="font-medium hover:text-[var(--sw-blue)] flex items-center gap-1"
+                  >
+                    {race.name}
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                      <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+                    </svg>
+                  </a>
+                {:else}
+                  <span class="font-medium">{race.name}</span>
+                {/if}
                 {#if race.distances.length > 0}
                   <span class="text-[var(--sw-text-secondary)]">{race.distances.join(', ')}</span>
                 {/if}

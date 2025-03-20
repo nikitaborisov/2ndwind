@@ -3,7 +3,7 @@ import { parse } from "svelte/compiler";
 interface Race {
     name: string;
     date: string;  // ISO date format
-    url: string;
+    url: string | null;
     distances: string[]; // 5K
     abbreviation: string;  // e.g., "SE", "CC",
     org: string | null
@@ -43,12 +43,164 @@ const races: Race[] = [
         org: "2nd Wind"
     },
     {
-        name: "Allerton Trail Run With A Really Really Really Long Name",
+        name: "Allerton Trail Run",
         date: "2025-04-05",
-        url: "https://runsignup.com/Race/IL/Allerton/AllertonTrailRun",
-        distances: [ "5K", "10K", "15K" ],
+        url: "https://runsignup.com/Race/IL/Monticello/AllertonRaces",
+        distances: [ "10K", "Half" ],
         abbreviation: "ATR",
+        org: null
+    },
+    {
+        name: "Illinois Marathon",
+        date: "2025-04-24/26",
+        url: "https://illinoismarathon.com/",
+        distances: [ "5K", "10K", "Half", "Full", "Mile" ],
+        abbreviation: "IM",
+        org: null
+    },
+    {
+        name: "Kirby Derby",
+        date: "2025-05-10",
+        url: "https://runsignup.com/Race/IL/Kirby/KirbyDerby",
+        distances: [ "5K", "10K" ],
+        abbreviation: "KD",
+        org: null
+    },
+    {
+        name: "Buffalo Trace Trail",
+        date: "2025-05-17",
+        url: null,
+        distances: [ ],
+        abbreviation: "BTT",
+        org: "2nd Wind"
+    },
+    {
+        name: "Countryside",
+        date: "2025-06-07",
+        url: "https://runsignup.com/Race/IL/Champaign/Countryside10K",
+        distances: [ "10K" ],
+        abbreviation: "CS",
+        org: "2nd Wind"
+    },
+    {
+        name: "Lake Mingo Trail Run",
+        date: "2025-06-07",
+        url: "https://runsignup.com/Race/IL/Danville/KennekukRoadRunnersLakeMingo",
+        distances: [ ],
+        abbreviation: "LM",
         org: "KRR"
+    },
+    {
+        name: "Lake Escape",
+        date: "2025-06-28",
+        url: "https://runsignup.com/Race/IL/Loda/LakeEscape5K10KKids1K",
+        distances: [ "5K", "10K" ],
+        abbreviation: "LE",
+        org: null
+    },
+    {
+        name: "Freedom Run",
+        date: "2025-07-04",
+        url: null,
+        distances: [ "5K" ],
+        abbreviation: "FR",
+        org: null
+    },
+    {
+        name: "Fisher Fair",
+        date: "2025-07-12*",
+        url: null,
+        distances: [ "5K" ],
+        abbreviation: "FF",
+        org: null
+    },
+    {
+        name: "Run for the Bagel",
+        date: "2025-07-19",
+        url: null,
+        distances: [ "5K", "10K" ],
+        abbreviation: "RFB",
+        org: null
+    },
+    {
+        name: "SJO 5K",
+        date: "2025-07-26",
+        url: null,
+        distances: [ "5K" ],
+        abbreviation: "SJO",
+        org: null
+    },
+    {
+        name: "Run Mahomet",
+        date: "2025-08-02",
+        url: "https://runsignup.com/Race/IL/Mahomet/MahometHalfMarathon5K",
+        distances: [ "5K", "10K", "Half" ],
+        abbreviation: "MHM",
+        org: null
+    },
+    {
+        name: "Arthur Cheese Festival Rat Race",
+        date: "2025-09-01",
+        url: "http://arthurcheesefestival.com/wpcheese/the-rat-race/",
+        distances: [ "5K", "10K" ],
+        abbreviation: "ACR",
+        org: null
+    },
+    {
+        name: "Arcola Broom Corn Festival",
+        date: "2025-09-06",
+        url: "https://runsignup.com/Race/IL/Arcola/ArcolaBroomCornFestivalRaces",
+        distances: [ "5K", "10K" ],
+        abbreviation: "ABC",
+        org: null
+    },
+    {
+        name: "Wild Wild Wilderness",
+        date: "2025-09-13",
+        url: "https://runsignup.com/Race/IL/Oakwood/KennekukRoadRunnersWildWildWilderness",
+        distances: [ "7.45" ],
+        abbreviation: "WWW",
+        org: "KRR"
+    },
+    {
+        name: "Run To Remember",
+        date: "2025-10-04",
+        url: "https://runsignup.com/Race/IL/Champaign/RunToRemember",
+        distances: [ "5K", "5M" ],
+        abbreviation: "RTR",
+        org: null
+    },
+    {
+        name: "Shoreline Classic",
+        date: "2025-10-05",
+        url: "https://runsignup.com/Race/IL/Champaign/ShorelineClassic",
+        distances: [ "5K", "15K" ],
+        abbreviation: "SC",
+        org: null
+    },
+    {
+        name: "Allerton Park Trail Run",
+        date: "2025-10-26",
+        url: "https://runsignup.com/Race/IL/Monticello/AllertonTrailRun",
+        distances: [], 
+        abbreviation: "APTR",
+        org: "2nd Wind"
+    },
+    {
+        name: "Rattlesnake Master",
+        date: "2025-11-02*",
+        url: null,
+        distances: [ "5K", "10K" ],
+        abbreviation: "RM",
+        org: null
+    },
+    {
+        name: "Mike Walsh Memorial",
+        date: "2025-12-15",
+        url: null,
+        distances: [ "5K" ],
+        abbreviation: "MWM",
+        org: null
     }
 ];
 
