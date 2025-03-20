@@ -41,6 +41,14 @@ const races: Race[] = [
         distances: [ "10", "30" ],
         abbreviation: "CL",
         org: "2nd Wind"
+    },
+    {
+        name: "Allerton Trail Run With A Really Really Really Long Name",
+        date: "2025-04-05",
+        url: "https://runsignup.com/Race/IL/Allerton/AllertonTrailRun",
+        distances: [ "5K", "10K", "15K" ],
+        abbreviation: "ATR",
+        org: "KRR"
     }
 ];
 

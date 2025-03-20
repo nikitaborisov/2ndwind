@@ -1,0 +1,44 @@
+:root {
+  /* Primary colors */
+  --sw-blue: #2563eb;  /* blue-600 */
+  --sw-blue-light: #eff6ff;  /* blue-50 */
+  --sw-blue-hover: #dbeafe;  /* blue-100 */
+  --sw-red: #dc2626;  /* red-600 */
+  --sw-red-light: #fef2f2;  /* red-50 */
+  --sw-red-hover: #fee2e2;  /* red-100 */
+  
+  /* Text colors */
+  --sw-text-primary: #1f2937;  /* gray-800 */
+  --sw-text-secondary: #4b5563;  /* gray-600 */
+  --sw-text-muted: #9ca3af;  /* gray-400 */
+  
+  /* Background colors */
+  --sw-bg-primary: #ffffff;
+  --sw-bg-secondary: #f9fafb;  /* gray-50 */
+  --sw-bg-hover: #f3f4f6;  /* gray-100 */
+  
+  /* Border colors */
+  --sw-border: #e5e7eb;  /* gray-200 */
+  --sw-border-light: #f3f4f6;  /* gray-100 */
+}
+
+h1 {
+  color: var(--sw-blue);
+  text-align: left;
+}
+
+h3.male {
+  color: var(--sw-blue);
+}
+
+h3.male .gradient-line {
+  background: linear-gradient(to right, var(--sw-blue-light), transparent);
+}
+
+h3.female {
+  color: var(--sw-red);
+}
+
+h3.female .gradient-line {
+  background: linear-gradient(to right, var(--sw-red-light), transparent);
+} 
