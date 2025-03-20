@@ -5,9 +5,6 @@
   // Track which age groups have their "Others" section expanded
   let expandedGroups: Record<string, boolean> = {};
 
-  // Add new state to track expanded results
-  let expandedResults: Record<string, boolean> = {};
-
   // Replace showModal with selectedParticipantKey
   let selectedParticipantKey: string | null = null;
   
@@ -86,9 +83,19 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <h1 class="text-4xl font-bold mb-8">Race Circuit</h1>
 
+    <!-- Quick Navigation -->
+    <div class="flex gap-4 mb-8">
+      <a href="#rules" class="text-[var(--sw-text-secondary)] hover:text-[var(--sw-blue)] transition-colors duration-200 flex items-center gap-2">
+        <span>📋</span> Rules
+      </a>
+      <a href="#results" class="text-[var(--sw-text-secondary)] hover:text-[var(--sw-blue)] transition-colors duration-200 flex items-center gap-2">
+        <span>🏆</span> Results
+      </a>
+    </div>
+
     <!-- Schedule section -->
     <div class="bg-white rounded-xl shadow-lg p-4 mb-8">
-      <h2 class="text-xl font-semibold text-[var(--sw-text-primary)] mb-4">Schedule</h2>
+      <h2>Schedule</h2>
       <p class="text-sm text-[var(--sw-text-secondary)] italic mb-4"><strong>Update:</strong> Mahoment 5K has been added</p>
       <div class="space-y-3">
         {#each races as race}
@@ -97,29 +104,41 @@
               {new Date(race.date).toLocaleDateString('en-US', {month: 'short', day: 'numeric'})}
             </div>
             <div class="flex-1">
-              <a 
-                href={race.url} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                class="font-medium hover:text-[var(--sw-blue)]"
-              >
-                {race.name}
-              </a>
-              {#if race.distances.length > 0}
-                <span class="text-[var(--sw-text-secondary)] ml-2">{race.distances.join(', ')}</span>
-              {/if}
+              <div class="flex items-center gap-2">
+                <a 
+                  href={race.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="font-medium hover:text-[var(--sw-blue)]"
+                >
+                  {race.name}
+                </a>
+                {#if race.distances.length > 0}
+                  <span class="text-[var(--sw-text-secondary)]">{race.distances.join(', ')}</span>
+                {/if}
+                {#if race.org === '2nd Wind'}
+                  <span class="text-xs px-1.5 py-0.5 rounded bg-[var(--sw-blue-light)] text-[var(--sw-blue)] font-medium flex items-center gap-1">
+                    <img src="/images/2ndwind-logo.png" alt="SWRC" class="w-[1.2em] h-[1.2em]" />
+                    <span>+2 pts</span>
+                  </span>
+                {:else if race.org === 'KRR'}
+                  <span class="text-xs px-1.5 py-0.5 rounded text-[var(--sw-blue)] font-medium flex items-center gap-1">
+                    <img src="/images/krr-logo.png" alt="KRR" class="w-[1.2em] h-[1.2em]" />
+                  </span>
+                {/if}
+              </div>
             </div>
           </div>
         {/each}
       </div>
     </div>
     
-    <h2 class="text-2xl font-semibold text-[var(--sw-text-primary)] mb-4">Rules</h2>
+    <h2 id="rules">Rules</h2>
 
     <div class="bg-[var(--sw-bg-primary)] rounded-xl shadow-lg p-6 space-y-6">
       <!-- Eligibility and Age Groups - Most important info first -->
       <div class="space-y-4">
-        <h3 class="text-lg font-medium text-[var(--sw-text-primary)]">Eligibility & Age Groups</h3>
+        <h3>Eligibility & Age Groups</h3>
         <div class="space-y-4 text-[var(--sw-text-secondary)]">
           <p>
             To be eligible to participate, members must join/renew their membership by April 30 and include their birth date on the membership form. All eligible members will be automatically entered into the circuit standings.
@@ -143,7 +162,7 @@
 
       <!-- Awards - Important goal for participants -->
       <div class="space-y-4">
-        <h3 class="text-lg font-medium text-[var(--sw-text-primary)]">Awards</h3>
+        <h3>Awards</h3>
         <div class="bg-[var(--sw-bg-secondary)] p-4 rounded-lg text-[var(--sw-text-secondary)]">
           <p class="font-medium mb-2">To qualify for a circuit award:</p>
           <ul class="list-disc pl-6">
@@ -156,7 +175,7 @@
 
       <!-- Scoring System - Core mechanics -->
       <div class="space-y-4">
-        <h3 class="text-lg font-medium text-[var(--sw-text-primary)]">Scoring System</h3>
+        <h3>Scoring System</h3>
         <div class="space-y-4 text-[var(--sw-text-secondary)]">
 
           <!-- Race Points -->
@@ -188,12 +207,13 @@
                   <li>6th place = 1 point</li>
                 </ul>
               </div>
-              <ul class="list-disc pl-6 space-y-1">
-                <li>Everyone who participates gets at least 1 point</li>
-                <li>If you are the only runner in your age group, you automatically earn 2 points</li>
-              </ul>
   
             </div>
+            <ul class="list-disc pl-6 space-y-1">
+              <li>Everyone who participates gets at least 1 point</li>
+              <li>If you are the only runner in your age group, you automatically earn 2 points</li>
+            </ul>
+
           </div>
           <!-- Base Points -->
           <div class="bg-[var(--sw-bg-secondary)] p-4 rounded-lg">
@@ -218,7 +238,7 @@
 
       <!-- Event Considerations - Important details -->
       <div class="space-y-4">
-        <h3 class="text-lg font-medium text-[var(--sw-text-primary)]">Event Considerations</h3>
+        <h3>Event Considerations</h3>
         <div class="bg-[var(--sw-bg-secondary)] p-4 rounded-lg text-[var(--sw-text-secondary)]">
           <ul class="list-disc pl-6 space-y-2">
             <li>If an event has in-person and virtual options, only the in-person results will be taken into account</li>
@@ -230,7 +250,7 @@
 
       <!-- Contact Information -->
       <div class="space-y-4">
-        <h3 class="text-lg font-medium text-[var(--sw-text-primary)]">Contact</h3>
+        <h3>Contact</h3>
         <div class="bg-[var(--sw-bg-secondary)] p-4 rounded-lg text-[var(--sw-text-secondary)]">
           <p>Your race circuit coordinator is Juan Salas (racecircuit@secondwindrunningclub.org).</p>
           <p>Feel free to email with questions/concerns/corrections.</p>
@@ -239,24 +259,24 @@
       </div>
     </div>
 
-    <h2 class="text-3xl font-bold text-[var(--sw-blue)] mb-8">Race Circuit Results</h2>
+    <h2 id="results">Race Circuit Results</h2>
 
-    <p class="text-center text-[var(--sw-text-secondary)] mb-8">Click on point score to see detailed race results. If your name is <span class="italic text-[var(--sw-text-muted)]">greyed out</span>, you must renew your membership before April 30, 2025 to remain eligible for the race circuit.</p>
+    <p class="text-[var(--sw-text-secondary)] mb-8">Click on point score to see detailed race results. If your name is <span class="italic text-[var(--sw-text-muted)]">greyed out</span>, you must renew your membership before April 30, 2025 to remain eligible for the race circuit.</p>
 
     <!-- Desktop Grid Layout -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {#each groupByAgeRange(raceData) as ageGroups}
         <div class="bg-[var(--sw-bg-primary)] rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
-          <h2 class="text-2xl font-semibold text-[var(--sw-text-primary)] mb-6 pb-2 border-b border-[var(--sw-border)]">{formatAgeRange(ageGroups[0].ageRange)}</h2>
+          <h3 class="ag">{formatAgeRange(ageGroups[0].ageRange)}</h3>
           
           {#each ageGroups as ageGroup, index}
             {#if index > 0}
               <div class="my-6 border-t border-[var(--sw-border)]"></div>
             {/if}
-            <h3 class="text-lg font-medium mb-3 {ageGroup.gender === 'Male' ? 'male' : 'female'} flex items-center gap-2">
+            <h4 class="{ageGroup.gender === 'Male' ? 'male' : 'female'} flex items-center gap-2">
               <span>{ageGroup.gender}</span>
               <div class="gradient-line flex-1 h-[0.5ex]"></div>
-            </h3>
+            </h4>
             
             <!-- Participants with results -->
             <div class="space-y-2 mb-6">
