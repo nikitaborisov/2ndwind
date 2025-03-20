@@ -25,12 +25,6 @@
     return `${group.gender} ${formatAgeRange(group.ageRange)}`;
   }
 
-  // Helper function to format race results as a string
-  function formatResults(participant: Participant): string {
-    return participant.results
-      .map(result => `${result.race}(${result.points})`)
-      .join(' ');
-  }
 
   // Helper functions to separate participants with and without results
   function getParticipantsWithResults(participants: Participant[]): Participant[] {
@@ -124,7 +118,7 @@
     </div>
     <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Race Circuit Results</h2>
 
-    <p class="text-center text-gray-600 mb-8">Click on point score to see detailed race results</p>
+    <p class="text-center text-gray-600 mb-8">Click on point score to see detailed race results. If your name is <span class="italic text-gray-400">greyed out</span>, you must renew your membership before April 30, 2025 to remain eligible for the race circuit.</p>
 
     <!-- Desktop Grid Layout -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -145,7 +139,19 @@
             <div class="space-y-2 mb-6">
               {#each getParticipantsWithResults(ageGroup.participants) as participant}
                 <div class="flex justify-between items-center py-2 border-b border-gray-100 hover:bg-gray-50 rounded transition-colors duration-200">
-                  <span class="text-gray-700 font-medium">{participant.name}</span>
+                  <span class="{participant.needsToRenew ? 'italic text-gray-400' : 'text-gray-700 font-medium'} flex items-center gap-2">
+                    {participant.name}
+                    {#if participant.needsToRenew}
+                      <a 
+                        href="https://runsignup.com/MyClubMemberships" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="text-xs px-2 py-0.5 rounded-full bg-red-50 text-red-600 hover:bg-red-100 transition-colors duration-200"
+                      >
+                        Renew
+                      </a>
+                    {/if}
+                  </span>
                   <div class="text-right flex items-center gap-2 relative">
                     <button 
                       class="points-button px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200 text-gray-700 font-medium"
@@ -191,7 +197,19 @@
                   <div class="mt-3 space-y-2">
                     {#each getParticipantsWithoutResults(ageGroup.participants) as participant}
                       <div class="flex justify-between items-center py-2 px-3 border-b border-gray-100 hover:bg-gray-50 rounded transition-colors duration-200">
-                        <span class="text-gray-500">{participant.name}</span>
+                        <span class="{participant.needsToRenew ? 'italic text-gray-400' : 'text-gray-500'} flex items-center gap-2">
+                          {participant.name}
+                          {#if participant.needsToRenew}
+                            <a 
+                              href="https://runsignup.com/MyClubMemberships" 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              class="text-xs px-2 py-0.5 rounded-full bg-red-50 text-red-600 hover:bg-red-100 transition-colors duration-200"
+                            >
+                              Renew
+                            </a>
+                          {/if}
+                        </span>
                       </div>
                     {/each}
                   </div>
